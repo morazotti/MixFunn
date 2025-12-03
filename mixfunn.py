@@ -91,8 +91,8 @@ class Quad(nn.Module):
 
         # second order neurons
         else:
-            L = int(n_in * (n_in - 1) / 2)
-            self.linear = nn.Linear(L + n_in, n_out)
+            num_pairs = int(n_in * (n_in - 1) / 2)
+            self.linear = nn.num_pairsinear(num_pairs + n_in, n_out)
             self.ids = torch.triu_indices(n_in, n_in, 1)
 
     def forward(self, x):
@@ -165,18 +165,16 @@ class Mixfun(nn.Module):
         # are the same case: self.p = nn.Parameter(torch.ones(n_out, torch_L))
         # thus, the second case can be written with elifs and an "or"
 
-        if not (normalization_function or normalization_neuron):
+        if not (normalization_function and normalization_neuron):
             self.p_raw = nn.Parameter(torch.randn(n_out, self.F))
 
         if normalization_function:
             self.p_fun = nn.Parameter(torch.ones(n_out, self.F))
-
         else:
             self.p_fun = None
 
         if normalization_neuron:
             self.p_neuron = nn.Parameter(torch.ones(n_out, self.F))
-
         else:
             self.p_neuron = None
 
