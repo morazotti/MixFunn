@@ -92,7 +92,7 @@ class Quad(nn.Module):
         # second order neurons
         else:
             num_pairs = int(n_in * (n_in - 1) / 2)
-            self.linear = nn.num_pairsinear(num_pairs + n_in, n_out)
+            self.linear = nn.Linear(num_pairs + n_in, n_out)
             self.ids = torch.triu_indices(n_in, n_in, 1)
 
     def forward(self, x):

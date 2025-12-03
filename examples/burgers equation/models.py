@@ -1,12 +1,13 @@
-import torch
 import torch.nn as nn
-import mixfun as mf
+
+import mixfunn as mf
+
 
 class PINN(nn.Module):
-    
+
     def __init__(self):
         super(PINN, self).__init__()
-        
+
         L = 1
         N = 16
 
@@ -17,7 +18,7 @@ class PINN(nn.Module):
             layers.append(nn.Linear(N, N))
             layers.append(nn.Tanh())
         layers.append(nn.Linear(N, 1))
-        
+
         self.layers = nn.Sequential(*layers)
 
     def forward(self, x):
@@ -25,17 +26,23 @@ class PINN(nn.Module):
 
         return x
 
+
 class MixFunn(nn.Module):
-    
+
     def __init__(self):
         super(MixFunn, self).__init__()
 
-        layers = []
-
         self.layers = nn.Sequential(
-            mf.Mixfun(3, 1, normalization_function=False, normalization_neuron=False, p_drop=False, second_order_input=True, second_order_function=False),
-            #mf.Mixfun(8, 1, normalization_function=False, normalization_neuron=False, p_drop=False, second_order_input=False, second_order_function=False),
-            )
+            mf.Mixfun(
+                3,
+                1,
+                normalization_function=False,
+                normalization_neuron=False,
+                p_drop=False,
+                second_order_input=True,
+                second_order_function=False,
+            ),
+        )
 
     def forward(self, x):
 
@@ -45,7 +52,7 @@ class MixFunn(nn.Module):
 
 
 class Hybrid(nn.Module):
-    
+
     def __init__(self):
         super(Hybrid, self).__init__()
 
@@ -59,7 +66,7 @@ class Hybrid(nn.Module):
             layers.append(nn.Linear(N, N))
             layers.append(nn.Tanh())
         layers.append(nn.Linear(N, 1))
-        
+
         self.layers = nn.Sequential(*layers)
 
     def forward(self, x):
